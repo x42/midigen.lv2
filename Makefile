@@ -46,6 +46,10 @@ endif
 
 targets+=$(BUILDDIR)$(LV2NAME)$(LIB_EXT)
 
+ifneq ($(MOD),)
+targets+=$(BUILDDIR)modgui
+endif
+
 ###############################################################################
 # extract versions
 LV2VERSION=$(midigen_VERSION)
@@ -76,6 +80,10 @@ $(BUILDDIR)manifest.ttl: lv2ttl/manifest.ttl.in
 	@mkdir -p $(BUILDDIR)
 	sed "s/@LV2NAME@/$(LV2NAME)/;s/@LIB_EXT@/$(LIB_EXT)/" \
 	  lv2ttl/manifest.ttl.in > $(BUILDDIR)manifest.ttl
+ifneq ($(MOD),)
+	sed "s/@LV2NAME@/$(LV2NAME)/" \
+		lv2ttl/manifest.modgui.in >> $(BUILDDIR)manifest.ttl
+endif
 
 $(BUILDDIR)$(LV2NAME).ttl: lv2ttl/$(LV2NAME).ttl.in
 	@mkdir -p $(BUILDDIR)
@@ -88,6 +96,10 @@ $(BUILDDIR)$(LV2NAME)$(LIB_EXT): src/$(LV2NAME).c src/sequences.h
 	  -o $(BUILDDIR)$(LV2NAME)$(LIB_EXT) src/$(LV2NAME).c \
 	  -shared $(LV2LDFLAGS) $(LDFLAGS) $(LOADLIBES)
 	$(STRIP) $(STRIPFLAGS) $(BUILDDIR)$(LV2NAME)$(LIB_EXT)
+
+$(BUILDDIR)modgui:
+	@mkdir -p $(BUILDDIR)/modgui
+	cp -r modgui/* $(BUILDDIR)modgui/
 
 # install/uninstall/clean target definitions
 
@@ -104,6 +116,7 @@ uninstall:
 
 clean:
 	rm -f $(BUILDDIR)manifest.ttl $(BUILDDIR)$(LV2NAME).ttl $(BUILDDIR)$(LV2NAME)$(LIB_EXT) lv2syms
+	rm -rf $(BUILDDIR)modgui
 	-test -d $(BUILDDIR) && rmdir $(BUILDDIR) || true
 
 .PHONY: clean all install uninstall
