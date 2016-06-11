@@ -9,9 +9,9 @@
         modgui:brand "x42" ;
         modgui:label "MIDI Generator" ;
         modgui:model "boxy" ;
-        modgui:panel "1-select-1-knob" ;
-        modgui:color "warning" ;
-        modgui:knob "black" ;
+        modgui:panel "1-select-3-knobs" ;
+        modgui:color "gray" ;
+        modgui:knob "steel" ;
         modgui:port [
             lv2:index 0 ;
             lv2:symbol "sequence" ;
