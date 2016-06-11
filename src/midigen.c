@@ -31,7 +31,7 @@
 #include <lv2/lv2plug.in/ns/ext/midi/midi.h>
 #include <lv2/lv2plug.in/ns/ext/log/logger.h>
 
-#define MEM_URI "http://gareus.org/oss/lv2/midigen"
+#define GEN_URI "http://gareus.org/oss/lv2/midigen"
 
 typedef struct {
 	float   beat_time;
@@ -69,14 +69,17 @@ typedef struct {
 	LV2_Log_Log* log;
 	LV2_Log_Logger logger;
 
+	/* Cached Port */
+	float bpm;
+	float seq;
+
 	/* Settings */
 	float sample_rate;
-	float bpm;
 	float spb; // samples / beat
-	uint32_t seq;
 
-	uint32_t pos;
-	int32_t tme;
+	uint32_t sid; // sequence ID
+	uint32_t pos; // event number
+	int32_t  tme;  // sample time
 
 } MidiGen;
 
@@ -212,13 +215,14 @@ run (LV2_Handle instance, uint32_t n_samples)
 	lv2_atom_forge_sequence_head (&self->forge, &self->frame, 0);
 
 	if (*self->p_seq != self->seq) {
-		self->seq = (int)rintf (*self->p_seq) % N_MIDI_SEQ;
+		self->seq = *self->p_seq;
+		self->sid = (int)rintf (self->seq) % N_MIDI_SEQ;
 		self->pos = 0;
 		self->tme = 0;
 		midi_panic (self);
 	}
 	
-	MIDISequence const* seq = sequences[self->seq];
+	MIDISequence const* seq = sequences[self->sid];
 	uint32_t pos = self->pos;
 
 	if (*self->p_bpm != self->bpm) {
@@ -256,11 +260,13 @@ run (LV2_Handle instance, uint32_t n_samples)
 	self->tme = tme + n_samples;
 	self->pos = pos;
 
+	if (self->p_prog) {
 #if 0
-	*self->p_prog = tme / (float)(seq[seq_len[self->seq] - 1].beat_time * spb);
+		*self->p_prog = 100.f * tme / (float)(seq[seq_len[self->sid] - 1].beat_time * spb);
 #else
-	*self->p_prog = pos / (seq_len[self->seq] - 1.f);
+		*self->p_prog = 100.f * pos / (seq_len[self->sid] - 1.f);
 #endif
+	}
 }
 
 static void
@@ -269,15 +275,14 @@ cleanup (LV2_Handle instance)
 	free (instance);
 }
 
-
-const void*
+static const void*
 extension_data (const char* uri)
 {
 	return NULL;
 }
 
 static const LV2_Descriptor descriptor = {
-	MEM_URI,
+	GEN_URI,
 	instantiate,
 	connect_port,
 	NULL,
