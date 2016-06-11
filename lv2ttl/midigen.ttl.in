@@ -37,7 +37,7 @@
 		lv2:name "Select Sequence";
 		lv2:minimum 0;
 		lv2:default 0;
-		lv2:maximum 6;
+		lv2:maximum 7;
 		lv2:portProperty lv2:integer, lv2:enumeration;
 		lv2:scalePoint [ rdf:value 0; rdfs:label "C-4 major (chan 1)"; ];
 		lv2:scalePoint [ rdf:value 1; rdfs:label "Cj7 chord (iterate channels)"; ];
@@ -46,6 +46,7 @@
 		lv2:scalePoint [ rdf:value 4; rdfs:label "Sustain Pedal Test"; ];
 		lv2:scalePoint [ rdf:value 5; rdfs:label "Rudi"; ];
 		lv2:scalePoint [ rdf:value 6; rdfs:label "BWV 846"; ];
+		lv2:scalePoint [ rdf:value 7; rdfs:label "The Cat"; ];
 	] , [
 		a lv2:InputPort, lv2:ControlPort;
 		lv2:index 2;
