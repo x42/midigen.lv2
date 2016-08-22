@@ -44,15 +44,6 @@ typedef struct {
 #define N_MIDI_SEQ (sizeof (sequences) / sizeof(MIDISequence*))
 
 typedef struct {
-	LV2_URID atom_Blank;
-	LV2_URID atom_Object;
-	LV2_URID atom_Sequence;
-	LV2_URID midi_MidiEvent;
-	LV2_URID atom_URID;
-
-} MidiGenURIs;
-
-typedef struct {
 	/* ports */
 	LV2_Atom_Sequence* midiout;
 	float* p_seq;
@@ -60,10 +51,9 @@ typedef struct {
 	float* p_prog;
 
 	/* atom-forge and URI mapping */
-	LV2_URID_Map* map;
-	MidiGenURIs uris;
 	LV2_Atom_Forge forge;
 	LV2_Atom_Forge_Frame frame;
+	LV2_URID midi_MidiEvent;
 
 	/* LV2 Output */
 	LV2_Log_Log* log;
@@ -83,21 +73,9 @@ typedef struct {
 
 } MidiGen;
 
-
 /* *****************************************************************************
  * helper functions
  */
-
-/** map uris */
-static void
-map_mem_uris (LV2_URID_Map* map, MidiGenURIs* uris)
-{
-	uris->atom_Blank         = map->map (map->handle, LV2_ATOM__Blank);
-	uris->atom_Object        = map->map (map->handle, LV2_ATOM__Object);
-	uris->midi_MidiEvent     = map->map (map->handle, LV2_MIDI__MidiEvent);
-	uris->atom_Sequence      = map->map (map->handle, LV2_ATOM__Sequence);
-	uris->atom_URID          = map->map (map->handle, LV2_ATOM__URID);
-}
 
 /**
  * add a midi message to the output port
@@ -109,7 +87,7 @@ forge_midimessage (MidiGen* self,
                    uint32_t size)
 {
 	LV2_Atom midiatom;
-	midiatom.type = self->uris.midi_MidiEvent;
+	midiatom.type = self->midi_MidiEvent;
 	midiatom.size = size;
 
 	if (0 == lv2_atom_forge_frame_time (&self->forge, tme)) return;
@@ -148,26 +126,27 @@ instantiate (const LV2_Descriptor*     descriptor,
              const LV2_Feature* const* features)
 {
 	MidiGen* self = (MidiGen*)calloc (1, sizeof (MidiGen));
+	LV2_URID_Map* map = NULL;
 
 	int i;
 	for (i=0; features[i]; ++i) {
 		if (!strcmp (features[i]->URI, LV2_URID__map)) {
-			self->map = (LV2_URID_Map*)features[i]->data;
+			map = (LV2_URID_Map*)features[i]->data;
 		} else if (!strcmp (features[i]->URI, LV2_LOG__log)) {
 			self->log = (LV2_Log_Log*)features[i]->data;
 		}
 	}
 
-	lv2_log_logger_init (&self->logger, self->map, self->log);
+	lv2_log_logger_init (&self->logger, map, self->log);
 
-	if (!self->map) {
+	if (!map) {
 		lv2_log_error (&self->logger, "MidiGen.lv2 error: Host does not support urid:map\n");
 		free (self);
 		return NULL;
 	}
 
-	lv2_atom_forge_init (&self->forge, self->map);
-	map_mem_uris (self->map, &self->uris);
+	lv2_atom_forge_init (&self->forge, map);
+	self->midi_MidiEvent = map->map (map->handle, LV2_MIDI__MidiEvent);
 
 	self->sample_rate = rate;
 	self->bpm = 120;
