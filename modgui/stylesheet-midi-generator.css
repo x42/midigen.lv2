@@ -142,7 +142,7 @@
     position:absolute !important;
 }
 .mod-pedal-boxy{{{cns}}} .mod-footswitch.on {
-    background-position-y: top !important
+    background-position: top center !important;
 }
 
 .mod-pedal-boxy{{{cns}}}.mod-five-knobs .mod-footswitch,
