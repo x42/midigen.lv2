@@ -1,13 +1,7 @@
 #!/usr/bin/make -f
-
-# these can be overridden using make variables. e.g.
-#   make CFLAGS=-O2
-#   make install DESTDIR=$(CURDIR)/debian/midigen.lv2 PREFIX=/usr
-#
-OPTIMIZATIONS ?= -msse -msse2 -mfpmath=sse -ffast-math -fomit-frame-pointer -O3 -fno-finite-math-only
+OPTIMIZATIONS ?= -msse -msse2 -mfpmath=sse -ffast-math -fomit-frame-pointer -O3 -fno-finite-math-only -DNDEBUG
 PREFIX ?= /usr/local
 CFLAGS ?= $(OPTIMIZATIONS) -Wall
-LIBDIR ?= lib
 
 PKG_CONFIG?=pkg-config
 STRIP?=strip
@@ -17,7 +11,7 @@ midigen_VERSION?=$(shell git describe --tags HEAD 2>/dev/null | sed 's/-g.*$$//;
 ###############################################################################
 LIB_EXT=.so
 
-LV2DIR ?= $(PREFIX)/$(LIBDIR)/lv2
+LV2DIR ?= $(PREFIX)/lib/lv2
 LOADLIBES=-lm
 LV2NAME=midigen
 BUNDLE=midigen.lv2
