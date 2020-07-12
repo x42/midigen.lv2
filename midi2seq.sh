@@ -17,8 +17,6 @@ midicomp "$1" \
 | cut -d' ' -f1
 )
 
-START=0
-
 midicomp "$1" \
 | grep -E '[0-9]* (Off|On|Par|PrCh|Tempo)' \
 | sed 's/\([0-9]*\) On \(.*\) v=0/\1 Off \2 v=0/' \
