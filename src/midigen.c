@@ -102,7 +102,7 @@ midi_panic (MidiGen* self)
 	uint8_t event[3];
 	event[2] = 0;
 
-	for (uint32_t c = 0; c < 0xf; ++c) {
+	for (uint32_t c = 0; c <= 0xf; ++c) {
 		event[0] = 0xb0 | c;
 		event[1] = 0x40; // sustain pedal
 		forge_midimessage (self, 0, event, 3);
