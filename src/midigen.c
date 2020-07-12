@@ -108,7 +108,7 @@ midi_panic (MidiGen* self)
 		forge_midimessage (self, 0, event, 3);
 		event[1] = 0x7b; // all notes off
 		forge_midimessage (self, 0, event, 3);
-#if 0
+#if 1
 		event[1] = 0x78; // all sound off
 		forge_midimessage (self, 0, event, 3);
 #endif
