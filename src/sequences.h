@@ -1503,8 +1503,12 @@ static const MIDISequence s8[] = {
 #include "beethove_symphony5.h"
 };
 
+static const MIDISequence s11[] = {
+#include "black_tetris.h"
+};
+
 static const MIDISequence *sequences[] = {
-	s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10
+	s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11
 };
 
 static const size_t seq_len[] = {
@@ -1519,4 +1523,5 @@ static const size_t seq_len[] = {
 	sizeof (s8) / sizeof (MIDISequence),
 	sizeof (s9) / sizeof (MIDISequence),
 	sizeof (s10) / sizeof (MIDISequence),
+	sizeof (s11) / sizeof (MIDISequence),
 };

@@ -51,6 +51,14 @@ else
 endif
 
 ###############################################################################
+SEQ_HEADERS= \
+             src/beethove_symphony5.h \
+             src/black_tetris.h \
+             src/bwv846.h \
+             src/rudi.h \
+             src/the_cat.h\
+
+###############################################################################
 # extract versions
 LV2VERSION=$(midigen_VERSION)
 include git2lv2.mk
@@ -90,7 +98,7 @@ $(BUILDDIR)$(LV2NAME).ttl: lv2ttl/$(LV2NAME).ttl.in
 	sed "s/@VERSION@/lv2:microVersion $(LV2MIC) ;lv2:minorVersion $(LV2MIN) ;/g;s/@MODBRAND@/$(MODBRAND)/;s/@MODLABEL@/$(MODLABEL)/" \
 		lv2ttl/$(LV2NAME).ttl.in > $(BUILDDIR)$(LV2NAME).ttl
 
-$(BUILDDIR)$(LV2NAME)$(LIB_EXT): src/$(LV2NAME).c src/sequences.h src/beethove_symphony5.h src/bwv846.h src/rudi.h src/the_cat.h
+$(BUILDDIR)$(LV2NAME)$(LIB_EXT): src/$(LV2NAME).c src/sequences.h $(SEQ_HEADERS)
 	@mkdir -p $(BUILDDIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) \
 	  -o $(BUILDDIR)$(LV2NAME)$(LIB_EXT) src/$(LV2NAME).c \
