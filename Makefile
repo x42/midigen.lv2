@@ -52,6 +52,7 @@ endif
 
 ###############################################################################
 SEQ_HEADERS= \
+             src/amen.h \
              src/beethove_symphony5.h \
              src/black_tetris.h \
              src/bwv846.h \
