@@ -721,8 +721,12 @@ static const MIDISequence s7[] = {
 #include "the_cat.h"
 };
 
+static const MIDISequence s8[] = {
+#include "beethove_symphony5.h"
+};
+
 static const MIDISequence *sequences[] = {
-	s0, s1, s2, s3, s4, s5, s6, s7
+	s0, s1, s2, s3, s4, s5, s6, s7, s8
 };
 
 static const size_t seq_len[] = {
@@ -734,4 +738,5 @@ static const size_t seq_len[] = {
 	sizeof (s5) / sizeof (MIDISequence),
 	sizeof (s6) / sizeof (MIDISequence),
 	sizeof (s7) / sizeof (MIDISequence),
+	sizeof (s8) / sizeof (MIDISequence),
 };
