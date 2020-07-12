@@ -113,6 +113,17 @@ midi_panic (MidiGen* self)
 		forge_midimessage (self, 0, event, 3);
 #endif
 	}
+	/* reset instruments */
+	for (uint32_t c = 0; c < 0xf; ++c) {
+		event[0] = 0xb0 | c;
+		event[1] = 0x00; // bank MSB
+		forge_midimessage (self, 0, event, 3);
+		event[1] = 0x20; // bank LSB
+		forge_midimessage (self, 0, event, 3);
+		event[0] = 0xc0 | c;
+		event[1] = 0x00 | c; // Nth patch
+		forge_midimessage (self, 0, event, 2);
+	}
 }
 
 /* *****************************************************************************
