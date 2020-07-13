@@ -56,6 +56,7 @@ SEQ_HEADERS= \
              src/beethove_symphony5.h \
              src/black_tetris.h \
              src/bwv846.h \
+             src/rock_drums.h \
              src/rudi.h \
              src/the_cat.h\
 

@@ -61,6 +61,7 @@
 		lv2:scalePoint [ rdf:value 13; rdfs:label "Performance - Rudolph The Red Nosed Reindeer"; ];
 		lv2:scalePoint [ rdf:value 14; rdfs:label "Performance - The Cat (J. Smith, Hammond)"; ];
 		lv2:scalePoint [ rdf:value 15; rdfs:label "Performance - Amen Break (Drum Pattern)"; ];
+		lv2:scalePoint [ rdf:value 16; rdfs:label "Performance - Rock Beat (Drum Pattern)"; ];
 	] , [
 		a lv2:InputPort, lv2:ControlPort;
 		lv2:index 2;

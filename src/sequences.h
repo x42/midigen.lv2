@@ -1944,9 +1944,14 @@ static const MIDISequence s15[] = {
 #include "amen.h"
 };
 
+static const MIDISequence s16[] = {
+#include "rock_drums.h"
+};
+
+
 static const MIDISequence *sequences[] = {
 	s0, s1, s2, s3, s4, s5, s6, s7, s8, s9,
-	s10, s11, s12, s13, s14, s15
+	s10, s11, s12, s13, s14, s15, s16
 };
 
 static const size_t seq_len[] = {
@@ -1966,4 +1971,5 @@ static const size_t seq_len[] = {
 	sizeof (s13) / sizeof (MIDISequence),
 	sizeof (s14) / sizeof (MIDISequence),
 	sizeof (s15) / sizeof (MIDISequence),
+	sizeof (s16) / sizeof (MIDISequence),
 };
