@@ -9,7 +9,7 @@ Install
 Compiling midigen requires the LV2 SDK, gnu-make, and a c-compiler.
 
 ```bash
-  git clone git://github.com/x42/midigen.lv2.git
+  git clone https://github.com/x42/midigen.lv2.git
   cd midigen.lv2
   make
   sudo make install PREFIX=/usr
